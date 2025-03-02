@@ -1,6 +1,6 @@
-import type { IdolData } from "~/helpers/idol.ts";
+import type { BaseIdolData } from "~/helpers/idol.ts";
 
-export const idol3: IdolData[] = [
+export const idol3: BaseIdolData[] = [
 	{
 		Name: "Abyssal",
 		Code: "MapRelicAbyssAdditionalChanceLarge",
