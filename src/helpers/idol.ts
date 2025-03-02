@@ -13,29 +13,35 @@ export type BaseIdolData = {
 	str: string; //Description
 };
 
-export enum IdolType {
-	Idol1 = 1,
-	Idol2 = 2,
-	Idol3 = 3,
-	Idol4 = 4,
-	Minor = 1,
-	Kamasan = 2,
-	Noble = 2,
-	Totemic = 3,
-	Burial = 3,
-	Conqueror = 4,
-}
+export type IdolType = keyof typeof IdolTypes;
 
-export const idolTypeToSize = (type: IdolType): string => {
+export const IdolTypes: Record<string, number> = {
+	Idol1: 1,
+	Idol2: 2,
+	Idol3: 3,
+	Idol4: 4,
+	Minor: 1,
+	Kamasan: 2,
+	Noble: 2,
+	Totemic: 3,
+	Burial: 3,
+	Conqueror: 4,
+};
+
+export const idolTypeToSize = (
+	type: (typeof IdolTypes)[keyof typeof IdolTypes],
+): string => {
 	switch (type) {
-		case IdolType.Idol1:
+		case 1:
 			return "1x1";
-		case IdolType.Idol2:
+		case 2:
 			return "1x2,2x1";
-		case IdolType.Idol3:
+		case 3:
 			return "1x3,3x1";
-		case IdolType.Idol4:
+		case 4:
 			return "2x2";
+		default:
+			return "Unknown";
 	}
 };
 
@@ -82,7 +88,7 @@ export const IdolMechanics: Record<string, string> = {
 
 export type EnrichedIdolData = BaseIdolData & {
 	Mechanic: IdolMechanic;
-	Type: IdolType;
+	Type: number;
 };
 
 export const idolNameToMechanic = (name: string): IdolMechanic => {
@@ -194,7 +200,7 @@ export const idolNameToMechanic = (name: string): IdolMechanic => {
 
 export const idolDataWithTypeAndMechanic = (
 	idol: BaseIdolData,
-	type: IdolType,
+	type: number,
 ): EnrichedIdolData => {
 	return {
 		...idol,
@@ -204,8 +210,8 @@ export const idolDataWithTypeAndMechanic = (
 };
 
 export const allIdolData: EnrichedIdolData[] = [
-	...idol1.map((idol) => idolDataWithTypeAndMechanic(idol, IdolType.Idol1)),
-	...idol2.map((idol) => idolDataWithTypeAndMechanic(idol, IdolType.Idol2)),
-	...idol3.map((idol) => idolDataWithTypeAndMechanic(idol, IdolType.Idol3)),
-	...idol4.map((idol) => idolDataWithTypeAndMechanic(idol, IdolType.Idol4)),
+	...idol1.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol1)),
+	...idol2.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol2)),
+	...idol3.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol3)),
+	...idol4.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol4)),
 ];

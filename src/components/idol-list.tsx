@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import {
 	type IdolMechanic,
 	IdolMechanics,
+	IdolTypes,
 	allIdolData,
 	idolNameToMechanic,
 	idolTypeToSize,
@@ -20,6 +21,18 @@ function IdolList() {
 		);
 	});
 	const [mechanicSearchQuery, setMechanicSearchQuery] = useState("");
+	const [activeIdolTypes, setActiveIdolTypes] = useState(() => {
+		return Object.values(IdolTypes).reduce(
+			(types, type) => {
+				types[type] = true;
+				return types;
+			},
+			{} as Record<number, boolean>,
+		);
+	});
+	const [idolTypeSearchQuery, setIdolTypeSearchQuery] = useState("");
+	const [showMechanicDropdown, setShowMechanicDropdown] = useState(false);
+	const [showIdolTypeDropdown, setShowIdolTypeDropdown] = useState(false);
 
 	const filteredIdols = useMemo(() => {
 		let idols = allIdolData;
@@ -35,14 +48,17 @@ function IdolList() {
 
 		idols = idols.filter((idol) => {
 			const idolMechanics = idolNameToMechanic(idol.Name);
-			if (Array.isArray(idolMechanics)) {
-				return idolMechanics.some((mechanic) => activeMechanics[mechanic]);
-			}
-			return activeMechanics[idolMechanics];
+			const mechanicMatch = Array.isArray(idolMechanics)
+				? idolMechanics.some((mechanic) => activeMechanics[mechanic])
+				: activeMechanics[idolMechanics];
+
+			const idolTypeMatch = activeIdolTypes[idol.Type];
+
+			return mechanicMatch && idolTypeMatch;
 		});
 
 		return idols;
-	}, [searchQuery, activeMechanics]);
+	}, [searchQuery, activeMechanics, activeIdolTypes]);
 
 	const filteredMechanics = useMemo(() => {
 		const allMechanics = Object.values(IdolMechanics);
@@ -55,10 +71,26 @@ function IdolList() {
 		);
 	}, [mechanicSearchQuery]);
 
+	const filteredIdolTypes = useMemo(() => {
+		const allTypes = Array.from(new Set(Object.values(IdolTypes)));
+		if (!idolTypeSearchQuery) {
+			return allTypes;
+		}
+		const lowerCaseQuery = idolTypeSearchQuery.toLowerCase();
+		return allTypes.filter((type) => type.toString() === lowerCaseQuery);
+	}, [idolTypeSearchQuery]);
+
 	const toggleMechanic = (mechanic: IdolMechanic) => {
 		setActiveMechanics((prevMechanics) => ({
 			...prevMechanics,
 			[mechanic]: !prevMechanics[mechanic],
+		}));
+	};
+
+	const toggleIdolType = (type: number) => {
+		setActiveIdolTypes((prevTypes) => ({
+			...prevTypes,
+			[type]: !prevTypes[type],
 		}));
 	};
 
@@ -67,6 +99,7 @@ function IdolList() {
 			<h1 className="mb-4 font-bold text-2xl">Idol List</h1>
 
 			<div className="mb-4 flex flex-col gap-2 md:flex-row">
+				{/* Search by Name/Description */}
 				<input
 					type="text"
 					placeholder="Search by name, description"
@@ -75,19 +108,24 @@ function IdolList() {
 					className="w-full rounded border border-gray-300 p-2"
 				/>
 
+				{/* Mechanic Dropdown */}
 				<div className="relative w-full md:w-auto">
 					<input
 						type="text"
 						placeholder="Search mechanics"
 						value={mechanicSearchQuery}
 						onChange={(e) => setMechanicSearchQuery(e.target.value)}
-						className="w-full rounded border border-gray-300 p-2 pr-10" // Added pr-10 for the dropdown icon
+						onClick={() => setShowMechanicDropdown(!showMechanicDropdown)}
+						className="w-full rounded border border-gray-300 p-2 pr-10"
 					/>
-					<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+					<div
+						className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
+						onClick={() => setShowMechanicDropdown(!showMechanicDropdown)}
+					>
 						<ArrowDownIcon className="size-6 text-blue-500" />
 					</div>
-					{/* Dropdown List */}
-					{
+					{showMechanicDropdown && (
 						<div className="absolute z-10 mt-1 w-full rounded-md border border-gray-300 bg-white shadow-lg">
 							{filteredMechanics.map((mechanic) => (
 								// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
@@ -111,7 +149,50 @@ function IdolList() {
 								</div>
 							)}
 						</div>
-					}
+					)}
+				</div>
+
+				<div className="relative w-full md:w-auto">
+					<input
+						type="text"
+						placeholder="Search idol types"
+						value={idolTypeSearchQuery}
+						onChange={(e) => setIdolTypeSearchQuery(e.target.value)}
+						onClick={() => setShowIdolTypeDropdown(!showIdolTypeDropdown)}
+						className="w-full rounded border border-gray-300 p-2 pr-10"
+					/>
+					{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+					<div
+						className="absolute inset-y-0 right-0 flex cursor-pointer items-center pr-3"
+						onClick={() => setShowIdolTypeDropdown(!showIdolTypeDropdown)}
+					>
+						<ArrowDownIcon className="size-6 text-blue-500" />
+					</div>
+					{showIdolTypeDropdown && (
+						<div className="absolute z-10 mt-1 w-full rounded-md border border-gray-300 bg-white shadow-lg">
+							{filteredIdolTypes.map((type) => (
+								// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+								<div
+									key={type}
+									className="flex cursor-pointer items-center justify-between px-4 py-2 hover:bg-gray-100"
+									onClick={() => toggleIdolType(type)}
+								>
+									<span>{type}</span>
+									<input
+										type="checkbox"
+										checked={activeIdolTypes[type] || false}
+										onChange={() => toggleIdolType(type)}
+										className="form-checkbox h-4 w-4 text-blue-600"
+									/>
+								</div>
+							))}
+							{filteredIdolTypes.length === 0 && (
+								<div className="px-4 py-2 text-gray-500">
+									No idol types found.
+								</div>
+							)}
+						</div>
+					)}
 				</div>
 			</div>
 
