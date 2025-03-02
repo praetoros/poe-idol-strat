@@ -184,7 +184,7 @@ function IdolList() {
 	};
 
 	return (
-		<div className="container mx-auto p-4">
+		<div className="container mx-auto overflow-x-hidden p-4">
 			<div className="mb-4 flex flex-col gap-2 md:flex-row">
 				<input
 					type="text"
