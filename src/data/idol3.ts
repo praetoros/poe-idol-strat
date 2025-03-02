@@ -1,4 +1,4 @@
-import type { BaseIdolData } from "~/helpers/idol.ts";
+import type { BaseIdolData } from "@/helpers/idol.ts";
 
 export const idol3: BaseIdolData[] = [
 	{

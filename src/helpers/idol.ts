@@ -1,7 +1,7 @@
-import { idol1 } from "~/data/idol1.ts";
-import { idol2 } from "~/data/idol2.ts";
-import { idol3 } from "~/data/idol3.ts";
-import { idol4 } from "~/data/idol4.ts";
+import { idol1 } from "@/data/idol1.ts";
+import { idol2 } from "@/data/idol2.ts";
+import { idol3 } from "@/data/idol3.ts";
+import { idol4 } from "@/data/idol4.ts";
 
 export type BaseIdolData = {
 	Name: string;
