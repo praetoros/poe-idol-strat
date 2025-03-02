@@ -3,7 +3,7 @@ const Header = () => {
 		<header className="w-full bg-gray-800 px-6 py-4 text-white">
 			<div className="container mx-auto flex flex-col items-center justify-between md:flex-row">
 				<a href="/">
-					<img src="/favico.webp" alt="Logo" className="h-8 w-auto" />
+					<img src="/assets/logo.webp" alt="Logo" className="h-8 w-auto" />
 				</a>
 				<div>
 					<h1 className="font-bold text-xl">
