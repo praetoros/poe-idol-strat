@@ -80,11 +80,25 @@ function IdolList() {
 
 		if (searchQuery) {
 			const lowerCaseQuery = searchQuery.toLowerCase();
-			idols = idols.filter(
-				(idol) =>
-					idol.Name.toLowerCase().includes(lowerCaseQuery) ||
-					idol.str.toLowerCase().includes(lowerCaseQuery),
-			);
+			try {
+				const regex = new RegExp(searchQuery, "i");
+
+				idols = idols.filter(
+					(idol) =>
+						regex.test(idol.Name) ||
+						regex.test(idol.str) ||
+						idol.Name.toLowerCase().includes(lowerCaseQuery) ||
+						idol.str.toLowerCase().includes(lowerCaseQuery),
+				);
+			} catch (error) {
+				// For invalid regex
+
+				idols = idols.filter(
+					(idol) =>
+						idol.Name.toLowerCase().includes(lowerCaseQuery) ||
+						idol.str.toLowerCase().includes(lowerCaseQuery),
+				);
+			}
 		}
 
 		idols = idols.filter((idol) => {
@@ -209,7 +223,7 @@ function IdolList() {
 			<div className="mb-4 flex flex-col gap-2 md:flex-row">
 				<input
 					type="text"
-					placeholder="Search by name, description"
+					placeholder="Search by name or description (case insensitive, regex supported)"
 					value={searchQuery}
 					onChange={(e) => setUrlState({ searchQuery: e.target.value })}
 					className="w-full rounded border border-gray-300 p-2"
