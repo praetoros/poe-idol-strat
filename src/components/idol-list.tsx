@@ -21,6 +21,12 @@ function copyTradeText(tradeStr: string) {
 		span.parentNode?.removeChild(span);
 	}
 
+	const breaks = tempDiv.querySelectorAll("br");
+	for (const br of breaks) {
+		br.parentNode?.insertBefore(document.createTextNode(" "), br);
+		br.parentNode?.removeChild(br);
+	}
+
 	const textToCopy = tempDiv.textContent || tempDiv.innerText;
 
 	if (textToCopy) {
@@ -184,7 +190,7 @@ function IdolList() {
 	};
 
 	return (
-		<div className="container mx-auto overflow-x-hidden p-4">
+		<div className="container mx-auto h-full overflow-visible overflow-x-clip p-4">
 			<div className="mb-4 flex flex-col gap-2 md:flex-row">
 				<input
 					type="text"
