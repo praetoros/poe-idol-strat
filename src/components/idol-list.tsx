@@ -61,7 +61,22 @@ function IdolList() {
 	const idolTypeDropdownRef = useRef<HTMLDivElement>(null);
 
 	const filteredIdols = useMemo(() => {
-		let idols = allIdolData;
+		let idols = allIdolData.sort((a, b) => {
+			if (a.Mechanic < b.Mechanic) {
+				return -1;
+			}
+			if (a.Mechanic > b.Mechanic) {
+				return 1;
+			}
+			if (a.Name < b.Name) {
+				return -1;
+			}
+			if (a.Name > b.Name) {
+				return 1;
+			}
+
+			return 0;
+		});
 
 		if (searchQuery) {
 			const lowerCaseQuery = searchQuery.toLowerCase();

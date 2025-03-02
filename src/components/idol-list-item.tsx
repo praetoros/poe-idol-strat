@@ -1,11 +1,7 @@
-import {
-	type IdolData,
-	idolNameToMechanic,
-	idolTypeToSize,
-} from "@/helpers/idol";
+import { type EnrichedIdolData, idolTypeToSize } from "@/helpers/idol";
 
 interface IdolListItemProps {
-	idol: IdolData;
+	idol: EnrichedIdolData;
 	copyTradeText: (tradeStr: string) => void;
 }
 
@@ -14,7 +10,7 @@ function IdolListItem({ idol, copyTradeText }: IdolListItemProps) {
 		// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 		<li
 			key={idol.Code}
-			className="flex flex-col rounded border p-2 shadow"
+			className="flex flex-col break-all rounded border p-2 shadow"
 			onClick={() => copyTradeText(idol.str)}
 		>
 			<h2 className="font-semibold text-md">{idol.Code}</h2>
@@ -24,8 +20,8 @@ function IdolListItem({ idol, copyTradeText }: IdolListItemProps) {
 				dangerouslySetInnerHTML={{ __html: idol.str }}
 			/>
 			<p className="mt-auto text-sm">
-				Mechanic: {idolNameToMechanic(idol.Name)} | Min Level: {idol.Level} |
-				Size: {idolTypeToSize(idol.Type)}
+				Mechanic: {idol.Mechanic} | Min Level: {idol.Level} | Size:{" "}
+				{idolTypeToSize(idol.Type)}
 			</p>
 		</li>
 	);
