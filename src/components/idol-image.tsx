@@ -1,8 +1,8 @@
 import type React from "react";
-import { IdolType } from "~/helpers/idol.ts";
+import { type IdolType, IdolTypes } from "~/helpers/idol.ts";
 
 interface ImageComponentProps {
-	idolType: IdolType;
+	idolType: number;
 	height?: number;
 }
 
@@ -11,13 +11,13 @@ const IdolImage: React.FC<ImageComponentProps> = ({
 	height = 32,
 }) => {
 	const images: Record<IdolType, { asset: string; alt: string }[]> = {
-		[IdolType.Idol1]: [
+		[IdolTypes.Idol1]: [
 			{
 				asset: "assets/idol_minor.webp",
 				alt: "Minor Idol",
 			},
 		],
-		[IdolType.Idol2]: [
+		[IdolTypes.Idol2]: [
 			{
 				asset: "assets/idol_kamasan.webp",
 				alt: "Kamasan Idol",
@@ -27,7 +27,7 @@ const IdolImage: React.FC<ImageComponentProps> = ({
 				alt: "Noble Idol",
 			},
 		],
-		[IdolType.Idol3]: [
+		[IdolTypes.Idol3]: [
 			{
 				asset: "assets/idol_totemic.webp",
 				alt: "Totemic Idol",
@@ -37,7 +37,7 @@ const IdolImage: React.FC<ImageComponentProps> = ({
 				alt: "Burial Idol",
 			},
 		],
-		[IdolType.Idol4]: [
+		[IdolTypes.Idol4]: [
 			{
 				asset: "assets/idol_conqueror.webp",
 				alt: "Conqueror Idol",
