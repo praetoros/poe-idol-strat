@@ -215,3 +215,11 @@ export const allIdolData: EnrichedIdolData[] = [
 	...idol3.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol3)),
 	...idol4.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol4)),
 ];
+
+export type IdolData = {
+	Code: string;
+	Name: string;
+	str: string;
+	Level: string;
+	Type: number;
+};
