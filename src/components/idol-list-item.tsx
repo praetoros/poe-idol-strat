@@ -14,7 +14,7 @@ function IdolListItem({ idol, copyTradeText }: IdolListItemProps) {
 		// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 		<li
 			key={idol.Code}
-			className="rounded border p-2 shadow"
+			className="flex flex-col rounded border p-2 shadow"
 			onClick={() => copyTradeText(idol.str)}
 		>
 			<h2 className="font-semibold text-md">{idol.Code}</h2>
@@ -23,7 +23,7 @@ function IdolListItem({ idol, copyTradeText }: IdolListItemProps) {
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
 				dangerouslySetInnerHTML={{ __html: idol.str }}
 			/>
-			<p className="mt-1 text-sm">
+			<p className="mt-auto text-sm">
 				Mechanic: {idolNameToMechanic(idol.Name)} | Min Level: {idol.Level} |
 				Size: {idolTypeToSize(idol.Type)}
 			</p>
