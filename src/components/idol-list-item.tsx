@@ -10,10 +10,10 @@ function IdolListItem({ idol, copyTradeText }: IdolListItemProps) {
 		// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 		<li
 			key={idol.Code}
-			className="flex flex-col break-all rounded border p-2 shadow"
+			className="flex flex-col rounded border p-2 shadow"
 			onClick={() => copyTradeText(idol.str)}
 		>
-			<h2 className="font-semibold text-md">{idol.Code}</h2>
+			<h2 className="break-all font-semibold text-md">{idol.Code}</h2>
 			<p
 				className="text-gray-600"
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
