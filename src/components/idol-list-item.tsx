@@ -21,7 +21,12 @@ function IdolListItem({ idol, copyTradeText }: IdolListItemProps) {
 			/>
 			<p className="mt-auto text-sm">
 				Mechanic: {idol.Mechanic} | Min Level: {idol.Level} | Size:{" "}
-				{idolTypeToSize(idol.Type)}
+				{idolTypeToSize(idol.Type)} |{" "}
+				<span
+					className={idol.Affix === "Suffix" ? "text-red-600" : "text-blue-600"}
+				>
+					{idol.Affix}
+				</span>
 			</p>
 		</li>
 	);

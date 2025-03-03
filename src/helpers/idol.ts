@@ -89,6 +89,7 @@ export const IdolMechanics: Record<string, string> = {
 export type EnrichedIdolData = BaseIdolData & {
 	Mechanic: IdolMechanic;
 	Type: number;
+	Affix: "Suffix" | "Prefix";
 };
 
 export const idolNameToMechanic = (name: string): IdolMechanic => {
@@ -198,6 +199,10 @@ export const idolNameToMechanic = (name: string): IdolMechanic => {
 	}
 };
 
+function idolNameToAffix(Name: string): "Suffix" | "Prefix" {
+	return Name.startsWith("of the ") ? "Suffix" : "Prefix";
+}
+
 export const idolDataWithTypeAndMechanic = (
 	idol: BaseIdolData,
 	type: number,
@@ -206,6 +211,7 @@ export const idolDataWithTypeAndMechanic = (
 		...idol,
 		Mechanic: idolNameToMechanic(idol.Name),
 		Type: type,
+		Affix: idolNameToAffix(idol.Name),
 	};
 };
 
