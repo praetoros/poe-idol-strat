@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { useEffect, useState } from "react";
 
 function App() {
-	const [isDarkMode, setIsDarkMode] = useState(false);
+	const [isDarkMode, setIsDarkMode] = useState(true);
 
 	useEffect(() => {
 		const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
