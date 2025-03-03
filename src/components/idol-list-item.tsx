@@ -1,3 +1,4 @@
+// components/idol-list-item.tsx (Modified)
 import { type EnrichedIdolData, idolTypeToSize } from "@/helpers/idol";
 
 interface IdolListItemProps {
@@ -15,7 +16,6 @@ function IdolListItem({ idol, copyTradeText }: IdolListItemProps) {
 		>
 			<h2 className="break-all font-semibold text-md">{idol.Code}</h2>
 			<p
-				className="text-gray-600"
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
 				dangerouslySetInnerHTML={{ __html: idol.str }}
 			/>

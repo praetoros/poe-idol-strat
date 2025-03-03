@@ -25,14 +25,14 @@ const IdolTypeDropdown = forwardRef<HTMLDivElement, IdolTypeDropdownProps>(
 		ref,
 	) => {
 		return (
-			<div className="relative w-full md:w-auto" ref={ref}>
+			<div className="relative w-full" ref={ref}>
 				<input
 					type="text"
 					placeholder="Search idol types"
 					value={idolTypeSearchQuery}
 					onChange={(e) => setIdolTypeSearchQuery(e.target.value)}
 					onClick={() => setShowIdolTypeDropdown(true)}
-					className="w-full rounded border border-gray-300 p-2 pr-10"
+					className="w-full rounded border border-border p-2 pr-10"
 				/>
 				{/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 				<div
@@ -42,12 +42,12 @@ const IdolTypeDropdown = forwardRef<HTMLDivElement, IdolTypeDropdownProps>(
 					<ArrowDownIcon className="size-6 text-blue-500" />
 				</div>
 				{showIdolTypeDropdown && (
-					<div className="absolute z-10 mt-1 w-full rounded-md border border-gray-300 bg-white shadow-lg">
+					<div className="absolute z-10 mt-1 w-full rounded-md border border-border bg-muted text-muted-foreground shadow-lg">
 						{filteredIdolTypes.map((type) => (
 							// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 							<div
 								key={type}
-								className="flex cursor-pointer items-center justify-between px-4 py-2 hover:bg-gray-100"
+								className="flex cursor-pointer items-center justify-between px-4 py-2 hover:bg-background"
 								onClick={() => toggleIdolType(type)}
 							>
 								<span>{type}</span>
@@ -60,7 +60,7 @@ const IdolTypeDropdown = forwardRef<HTMLDivElement, IdolTypeDropdownProps>(
 							</div>
 						))}
 						{filteredIdolTypes.length === 0 && (
-							<div className="px-4 py-2 text-gray-500">
+							<div className="px-4 py-2 text-foreground">
 								No idol types found.
 							</div>
 						)}

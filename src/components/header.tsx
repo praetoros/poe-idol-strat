@@ -1,6 +1,6 @@
 const Header = () => {
 	return (
-		<header className="w-full bg-gray-800 px-6 py-4 text-white">
+		<header className="w-full bg-foreground px-6 py-4 text-background">
 			<div className="container mx-auto flex flex-col items-center justify-between md:flex-row">
 				<a href="/">
 					<img src="/assets/logo.webp" alt="Logo" className="h-8 w-auto" />

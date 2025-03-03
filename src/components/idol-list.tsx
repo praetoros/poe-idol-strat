@@ -219,14 +219,14 @@ function IdolList() {
 	};
 
 	return (
-		<div className="container mx-auto h-full overflow-visible overflow-x-clip p-4">
+		<div className="container mx-auto h-full overflow-visible overflow-x-clip bg-background p-4 text-foreground">
 			<div className="mb-4 flex flex-col gap-2 md:flex-row">
 				<input
 					type="text"
 					placeholder="Search by name or description (case insensitive, regex supported)"
 					value={searchQuery}
 					onChange={(e) => setUrlState({ searchQuery: e.target.value })}
-					className="w-full rounded border border-gray-300 p-2"
+					className="w-full rounded border border-border p-2 md:max-w-1/2"
 				/>
 
 				<MechanicDropdown
@@ -256,7 +256,7 @@ function IdolList() {
 				{/* biome-ignore lint/a11y/useButtonType: <explanation> */}
 				<button
 					onClick={resetAll}
-					className="w-full rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600 md:w-auto"
+					className="w-full rounded bg-destructive px-4 py-2 text-foreground hover:bg-destructive-foreground md:w-auto"
 				>
 					Reset
 				</button>
