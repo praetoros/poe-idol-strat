@@ -200,7 +200,7 @@ export const idolNameToMechanic = (name: string): IdolMechanic => {
 };
 
 function idolNameToAffix(Name: string): "Suffix" | "Prefix" {
-	return Name.startsWith("of the ") ? "Suffix" : "Prefix";
+	return Name.startsWith("of ") ? "Suffix" : "Prefix";
 }
 
 export const idolDataWithTypeAndMechanic = (
