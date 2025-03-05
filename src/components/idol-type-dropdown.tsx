@@ -11,6 +11,23 @@ interface IdolTypeDropdownProps {
 	toggleIdolType: (type: number) => void;
 }
 
+const getIdolTypeName = (type: number): string => {
+	switch (type) {
+		case 0:
+			return "Unique";
+		case 1:
+			return "1x1";
+		case 2:
+			return "1x2,2x1";
+		case 3:
+			return "1x3,3x1";
+		case 4:
+			return "2x2";
+		default:
+			return "Unknown";
+	}
+};
+
 const IdolTypeDropdown = forwardRef<HTMLDivElement, IdolTypeDropdownProps>(
 	(
 		{
@@ -50,7 +67,7 @@ const IdolTypeDropdown = forwardRef<HTMLDivElement, IdolTypeDropdownProps>(
 								className="flex cursor-pointer items-center justify-between px-4 py-2 hover:bg-background"
 								onClick={() => toggleIdolType(type)}
 							>
-								<span>{type}</span>
+								<span>{getIdolTypeName(type)}</span>
 								<input
 									type="checkbox"
 									checked={activeIdolTypes[type] || false}

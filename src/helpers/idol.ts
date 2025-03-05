@@ -1,3 +1,4 @@
+import { idol0 } from "@/data/idol0.ts";
 import { idol1 } from "@/data/idol1.ts";
 import { idol2 } from "@/data/idol2.ts";
 import { idol3 } from "@/data/idol3.ts";
@@ -16,10 +17,12 @@ export type BaseIdolData = {
 export type IdolType = keyof typeof IdolTypes;
 
 export const IdolTypes: Record<string, number> = {
+	Idol0: 0,
 	Idol1: 1,
 	Idol2: 2,
 	Idol3: 3,
 	Idol4: 4,
+	Unique: 0,
 	Minor: 1,
 	Kamasan: 2,
 	Noble: 2,
@@ -32,6 +35,8 @@ export const idolTypeToSize = (
 	type: (typeof IdolTypes)[keyof typeof IdolTypes],
 ): string => {
 	switch (type) {
+		case 0:
+			return "1x1 (Unique)";
 		case 1:
 			return "1x1";
 		case 2:
@@ -84,6 +89,7 @@ export const IdolMechanics: Record<string, string> = {
 	Ascendancy: "Ascendancy",
 	Maven: "Maven",
 	Unknown: "Unknown",
+	Unique: "Unique",
 };
 
 export type EnrichedIdolData = BaseIdolData & {
@@ -148,7 +154,6 @@ export const idolNameToMechanic = (name: string): IdolMechanic => {
 		case "General's":
 		case "of the Legion":
 			return IdolMechanics.Legion;
-
 		case "of Ultimatum":
 		case "Trialmaster's":
 			return IdolMechanics.Ultimatum;
@@ -209,13 +214,14 @@ export const idolDataWithTypeAndMechanic = (
 ): EnrichedIdolData => {
 	return {
 		...idol,
-		Mechanic: idolNameToMechanic(idol.Name),
+		Mechanic: type === 0 ? IdolMechanics.Unique : idolNameToMechanic(idol.Name),
 		Type: type,
 		Affix: idolNameToAffix(idol.Name),
 	};
 };
 
 export const allIdolData: EnrichedIdolData[] = [
+	...idol0.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol0)),
 	...idol1.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol1)),
 	...idol2.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol2)),
 	...idol3.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol3)),

@@ -5,7 +5,6 @@ import {
 	IdolMechanics,
 	IdolTypes,
 	allIdolData,
-	idolNameToMechanic,
 } from "@/helpers/idol";
 import useUrlState from "@/hooks/useUrlState.ts";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -65,10 +64,7 @@ function IdolList() {
 		}
 
 		idols = idols.filter((idol) => {
-			const idolMechanics = idolNameToMechanic(idol.Name);
-			const mechanicMatch = Array.isArray(idolMechanics)
-				? idolMechanics.some((mechanic) => activeMechanics[mechanic])
-				: activeMechanics[idolMechanics];
+			const mechanicMatch = activeMechanics[idol.Mechanic];
 
 			const idolTypeMatch = activeIdolTypes[idol.Type];
 

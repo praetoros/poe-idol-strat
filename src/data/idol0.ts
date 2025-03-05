@@ -80,7 +80,7 @@ export const idol0: BaseIdolData[] = [
 		ModGenerationTypeID: "AtlasPassive",
 		ModFamilyList: ["Breach", "Scarab", "ExtraContent"],
 		DropChance: 100,
-		str: "Your Maps have no chance to contain Breaches<br>Scarabs found in your Maps cannot be Breach Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can<br>be turned off through Atlas Passives",
+		str: "Your Maps have no chance to contain Breaches<br>Scarabs found in your Maps cannot be Breach Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can be turned off through Atlas Passives",
 	},
 	{
 		Name: "Eldritch Gaze",
@@ -116,7 +116,7 @@ export const idol0: BaseIdolData[] = [
 		ModGenerationTypeID: "AtlasPassive",
 		ModFamilyList: ["Blight", "Scarab", "ExtraContent"],
 		DropChance: 100,
-		str: "Your Maps have no chance to contain Blight Encounters<br>Scarabs found in your Maps cannot be Blight Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can<br>be turned off through Atlas Passives",
+		str: "Your Maps have no chance to contain Blight Encounters<br>Scarabs found in your Maps cannot be Blight Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can be turned off through Atlas Passives",
 	},
 	{
 		Name: "Gruelling Gauntlet",
@@ -143,7 +143,7 @@ export const idol0: BaseIdolData[] = [
 		ModGenerationTypeID: "AtlasPassive",
 		ModFamilyList: ["Abyss", "Scarab", "ExtraContent"],
 		DropChance: 100,
-		str: "Your Maps have no chance to contain Abysses<br>Scarabs found in your Maps cannot be Abyss Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can<br>be turned off through Atlas Passives",
+		str: "Your Maps have no chance to contain Abysses<br>Scarabs found in your Maps cannot be Abyss Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can be turned off through Atlas Passives",
 	},
 	{
 		Name: "Lucid Dreams",
@@ -170,7 +170,7 @@ export const idol0: BaseIdolData[] = [
 		ModGenerationTypeID: "AtlasPassive",
 		ModFamilyList: ["Delirium", "Scarab", "ExtraContent"],
 		DropChance: 100,
-		str: "Your Maps have no chance to contain Mirrors of Delirium<br>Scarabs found in your Maps cannot be Delirium Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can<br>be turned off through Atlas Passives",
+		str: "Your Maps have no chance to contain Mirrors of Delirium<br>Scarabs found in your Maps cannot be Delirium Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can be turned off through Atlas Passives",
 	},
 	{
 		Name: "Perceived Greatness",
@@ -197,7 +197,7 @@ export const idol0: BaseIdolData[] = [
 		ModGenerationTypeID: "AtlasPassive",
 		ModFamilyList: ["Legion", "Scarab", "ExtraContent"],
 		DropChance: 100,
-		str: "Your Maps have no chance to contain Legion Encounters<br>Scarabs found in your Maps cannot be Legion Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can<br>be turned off through Atlas Passives",
+		str: "Your Maps have no chance to contain Legion Encounters<br>Scarabs found in your Maps cannot be Legion Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can be turned off through Atlas Passives",
 	},
 	{
 		Name: "Secular Focus",
@@ -206,7 +206,7 @@ export const idol0: BaseIdolData[] = [
 		ModGenerationTypeID: "AtlasPassive",
 		ModFamilyList: ["Ritual", "Scarab", "ExtraContent"],
 		DropChance: 100,
-		str: "Your Maps have no chance to contain Ritual Altars<br>Scarabs found in your Maps cannot be Ritual Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can<br>be turned off through Atlas Passives",
+		str: "Your Maps have no chance to contain Ritual Altars<br>Scarabs found in your Maps cannot be Ritual Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can be turned off through Atlas Passives",
 	},
 	{
 		Name: "Servant of Order",
@@ -215,7 +215,7 @@ export const idol0: BaseIdolData[] = [
 		ModGenerationTypeID: "AtlasPassive",
 		ModFamilyList: ["Ultimatum", "Scarab", "ExtraContent"],
 		DropChance: 100,
-		str: "Your Maps have no chance to contain Ultimatum Encounters<br>Scarabs found in your Maps cannot be Ultimatum Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can<br>be turned off through Atlas Passives",
+		str: "Your Maps have no chance to contain Ultimatum Encounters<br>Scarabs found in your Maps cannot be Ultimatum Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can be turned off through Atlas Passives",
 	},
 	{
 		Name: "Shadow Shaping",
@@ -266,7 +266,7 @@ export const idol0: BaseIdolData[] = [
 			"ExtraContent",
 		],
 		DropChance: 100,
-		str: "Your Maps have no chance to contain Smuggler's Caches<br>Rogue's Markers, Contracts and Blueprints cannot be found in Your Maps<br>Your Maps have +5% chance to contain other Extra Content that can<br>be turned off through Atlas Passives",
+		str: "Your Maps have no chance to contain Smuggler's Caches<br>Rogue's Markers, Contracts and Blueprints cannot be found in Your Maps<br>Your Maps have +5% chance to contain other Extra Content that can be turned off through Atlas Passives",
 	},
 	{
 		Name: "Thorough Exploration",
@@ -293,7 +293,7 @@ export const idol0: BaseIdolData[] = [
 		ModGenerationTypeID: "AtlasPassive",
 		ModFamilyList: ["Expedition", "Scarab", "ExtraContent"],
 		DropChance: 100,
-		str: "Your Maps have no chance to contain Expedition Encounters<br>Scarabs found in your Maps cannot be Expedition Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can<br>be turned off through Atlas Passives",
+		str: "Your Maps have no chance to contain Expedition Encounters<br>Scarabs found in your Maps cannot be Expedition Scarabs<br>Your Maps have +5% chance to contain other Extra Content that can be turned off through Atlas Passives",
 	},
 	{
 		Name: "Twist of Fate",

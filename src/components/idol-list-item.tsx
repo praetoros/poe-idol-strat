@@ -6,7 +6,7 @@ interface IdolListItemProps {
 	idol: EnrichedIdolData;
 }
 
-function copyTradeText(tradeStr: string) {
+function copyTradeText(tradeStr: string, type: number) {
 	const tempDiv = document.createElement("div");
 	tempDiv.innerHTML = tradeStr;
 
@@ -20,10 +20,20 @@ function copyTradeText(tradeStr: string) {
 		span.parentNode?.removeChild(span);
 	}
 
-	const breaks = tempDiv.querySelectorAll("br");
-	for (const br of breaks) {
-		br.parentNode?.insertBefore(document.createTextNode(" "), br);
-		br.parentNode?.removeChild(br);
+	if (type === 0) {
+		const firstLine = tempDiv.innerHTML?.split("<br>")[0];
+		if (firstLine) {
+			tempDiv.textContent = firstLine;
+		} else {
+			toast("Failed to copy text. Please report this on GitHub");
+			return;
+		}
+	} else {
+		const breaks = tempDiv.querySelectorAll("br");
+		for (const br of breaks) {
+			br.parentNode?.insertBefore(document.createTextNode(" "), br);
+			br.parentNode?.removeChild(br);
+		}
 	}
 
 	const textToCopy = tempDiv.textContent || tempDiv.innerText;
@@ -33,7 +43,11 @@ function copyTradeText(tradeStr: string) {
 			navigator.clipboard
 				.writeText(textToCopy)
 				.then(() => {
-					toast("Trade search text copied to clipboard.");
+					if (type === 0) {
+						toast("Trade search text copied to clipboard. (First line only)");
+					} else {
+						toast("Trade search text copied to clipboard.");
+					}
 				})
 				.catch((err) => {
 					toast("Failed to copy text.");
@@ -53,9 +67,13 @@ function IdolListItem({ idol }: IdolListItemProps) {
 		<li
 			key={idol.Code}
 			className="flex flex-col rounded border p-2 shadow"
-			onClick={() => copyTradeText(idol.str)}
+			onClick={() => copyTradeText(idol.str, idol.Type)}
 		>
-			<h2 className="break-all font-semibold text-md">{idol.Code}</h2>
+			<h2 className="font-semibold text-md">
+				{idol.Code.replace(/_/g, " ").replace(/\b\w/g, (char) =>
+					char.toUpperCase(),
+				)}
+			</h2>
 			<p
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
 				dangerouslySetInnerHTML={{ __html: idol.str }}
@@ -63,12 +81,20 @@ function IdolListItem({ idol }: IdolListItemProps) {
 			/>
 			<p className="mt-auto text-sm">
 				Mechanic: {idol.Mechanic} | Min Level: {idol.Level} | Size:{" "}
-				{idolTypeToSize(idol.Type)} |{" "}
-				<span
-					className={idol.Affix === "Suffix" ? "text-red-600" : "text-blue-600"}
-				>
-					{idol.Affix}
-				</span>
+				{idolTypeToSize(idol.Type)}
+				{idol.Type !== 0 && (
+					<>
+						{" "}
+						|{" "}
+						<span
+							className={
+								idol.Affix === "Suffix" ? "text-red-600" : "text-blue-600"
+							}
+						>
+							{idol.Affix}
+						</span>
+					</>
+				)}
 			</p>
 		</li>
 	);
