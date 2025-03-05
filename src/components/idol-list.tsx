@@ -9,44 +9,7 @@ import {
 } from "@/helpers/idol";
 import useUrlState from "@/hooks/useUrlState.ts";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { toast } from "sonner";
 import MechanicDropdown from "./idol-mechanic-dropdown";
-
-function copyTradeText(tradeStr: string) {
-	const tempDiv = document.createElement("div");
-	tempDiv.innerHTML = tradeStr;
-
-	const spans = tempDiv.querySelectorAll("span");
-	for (const span of spans) {
-		span.parentNode?.removeChild(span);
-	}
-
-	const breaks = tempDiv.querySelectorAll("br");
-	for (const br of breaks) {
-		br.parentNode?.insertBefore(document.createTextNode(" "), br);
-		br.parentNode?.removeChild(br);
-	}
-
-	const textToCopy = tempDiv.textContent || tempDiv.innerText;
-
-	if (textToCopy) {
-		if (navigator.clipboard) {
-			navigator.clipboard
-				.writeText(textToCopy)
-				.then(() => {
-					toast("Trade search text copied to clipboard.");
-				})
-				.catch((err) => {
-					toast("Failed to copy text.");
-					console.error("Failed to copy text: ", err);
-				});
-		} else {
-			toast("Your browser does not support copying to clipboard.");
-		}
-	} else {
-		toast("No text to copy after removing spans.");
-	}
-}
 
 function IdolList() {
 	const [{ searchQuery, activeMechanics, activeIdolTypes }, setUrlState] =
@@ -264,11 +227,7 @@ function IdolList() {
 
 			<ul className="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
 				{filteredIdols.map((idol) => (
-					<IdolListItem
-						key={idol.Code}
-						idol={idol}
-						copyTradeText={copyTradeText}
-					/>
+					<IdolListItem key={idol.Code} idol={idol} />
 				))}
 			</ul>
 			{filteredIdols.length === 0 && (

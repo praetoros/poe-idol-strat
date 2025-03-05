@@ -220,4 +220,4 @@ export const allIdolData: EnrichedIdolData[] = [
 	...idol2.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol2)),
 	...idol3.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol3)),
 	...idol4.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol4)),
-];
+].filter((idol) => !idol.str.includes("144&ndash;180")); // Remove 144-180 affixes since they are only for ruthless
