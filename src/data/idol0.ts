@@ -302,7 +302,7 @@ export const idol0: BaseIdolData[] = [
 		ModGenerationTypeID: "AtlasPassive",
 		ModFamilyList: ["MapCorruption", "MapModifiers"],
 		DropChance: 0,
-		str: "Your Corrupted Rare Maps and any Map Crafting options<br>applying to them are modified unpredictably when opened<br>Maps modified in this way have 1-3 additional random Map Modifiers",
+		str: "Your Corrupted Rare Maps and any Map Crafting options applying to them are modified unpredictably when opened<br>Maps modified in this way have 1-3 additional random Map Modifiers",
 	},
 	{
 		Code: "Twisted Wish",
