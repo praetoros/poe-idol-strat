@@ -1,4 +1,4 @@
-import { type IdolType, IdolTypes } from "@/helpers/idol.ts";
+import { type IdolType, IdolTypes } from "@/models/idol.ts";
 import type React from "react";
 
 interface ImageComponentProps {
