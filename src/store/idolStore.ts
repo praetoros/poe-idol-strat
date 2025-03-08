@@ -23,35 +23,73 @@ interface IdolState {
 	toggleAllMechanics: (enable: boolean) => void;
 	resetAll: () => void;
 	getState: () => IdolState;
+	refresh: () => void;
 }
+
+const enrichRecordWithParams = (
+	record: Record<string, boolean>,
+	params: string | null,
+) => {
+	if (params) {
+		const splitParams = params.split(",");
+		for (const param of splitParams) {
+			if (record[param] !== undefined) {
+				record[param] = true;
+			}
+		}
+	}
+	return record;
+};
+
+const initialParams = new URLSearchParams(
+	typeof window !== "undefined" ? window.location.search : "",
+);
+const initialSearchQuery = initialParams.get("q") || "";
+const paramsMechanics = initialParams.get("m");
+const paramsIdolTypes = initialParams.get("t");
+const paramsIdolAffixes = initialParams.get("a");
+
+const initialActiveMechanics = Object.keys(IdolMechanics).reduce(
+	(acc, mechanic) => {
+		acc[mechanic] = !paramsMechanics;
+		return acc;
+	},
+	{} as Record<IdolMechanic, boolean>,
+);
+const initialActiveIdolTypes = Object.keys(IdolTypes).reduce(
+	(acc, type) => {
+		acc[type] = !paramsIdolTypes;
+		return acc;
+	},
+	{} as Record<IdolType, boolean>,
+);
+const initialActiveIdolAffixes = Object.keys(IdolAffixes).reduce(
+	(acc, affix) => {
+		acc[affix] = !paramsIdolAffixes;
+		return acc;
+	},
+	{} as Record<IdolAffix, boolean>,
+);
 
 const useIdolStore = create<IdolState>((set, get) => ({
 	getState: () => get(),
-	searchQuery: "",
-	activeMechanics: Object.keys(IdolMechanics).reduce(
-		(acc, mechanic) => {
-			acc[mechanic] = true;
-			return acc;
-		},
-		{} as Record<IdolMechanic, boolean>,
+	searchQuery: initialSearchQuery,
+	activeMechanics: enrichRecordWithParams(
+		initialActiveMechanics,
+		paramsMechanics,
 	),
-	activeIdolTypes: Object.keys(IdolTypes).reduce(
-		(acc, type) => {
-			acc[type] = true;
-			return acc;
-		},
-		{} as Record<IdolType, boolean>,
+	activeIdolTypes: enrichRecordWithParams(
+		initialActiveIdolTypes,
+		paramsIdolTypes,
 	),
-	activeIdolAffixes: Object.keys(IdolAffixes).reduce(
-		(acc, affix) => {
-			acc[affix] = true;
-			return acc;
-		},
-		{} as Record<IdolAffix, boolean>,
+	activeIdolAffixes: enrichRecordWithParams(
+		initialActiveIdolAffixes,
+		paramsIdolAffixes,
 	),
 	filteredIdols: allIdolData,
 	setSearchQuery: (query: string) => {
 		set({ searchQuery: query });
+		setUrlFromState(get());
 		set((state) => ({
 			filteredIdols: filterIdols(state),
 		}));
@@ -63,6 +101,7 @@ const useIdolStore = create<IdolState>((set, get) => ({
 				[mechanic]: !state.activeMechanics[mechanic],
 			},
 		}));
+		setUrlFromState(get());
 		set((state) => ({
 			filteredIdols: filterIdols(state),
 		}));
@@ -74,6 +113,7 @@ const useIdolStore = create<IdolState>((set, get) => ({
 				[type]: !state.activeIdolTypes[type],
 			},
 		}));
+		setUrlFromState(get());
 		set((state) => ({
 			filteredIdols: filterIdols(state),
 		}));
@@ -85,6 +125,7 @@ const useIdolStore = create<IdolState>((set, get) => ({
 				[type]: !state.activeIdolAffixes[type],
 			},
 		}));
+		setUrlFromState(get());
 		set((state) => ({
 			filteredIdols: filterIdols(state),
 		}));
@@ -99,6 +140,7 @@ const useIdolStore = create<IdolState>((set, get) => ({
 				activeMechanics: newMechanics,
 			};
 		});
+		setUrlFromState(get());
 		set((state) => ({
 			filteredIdols: filterIdols(state),
 		}));
@@ -128,6 +170,12 @@ const useIdolStore = create<IdolState>((set, get) => ({
 				{} as Record<IdolAffix, boolean>,
 			),
 		});
+		setUrlFromState(get());
+		set((state) => ({
+			filteredIdols: filterIdols(state),
+		}));
+	},
+	refresh: () => {
 		set((state) => ({
 			filteredIdols: filterIdols(state),
 		}));
@@ -166,6 +214,38 @@ function filterIdols(state: IdolState): EnrichedIdolData[] {
 	});
 
 	return idols;
+}
+
+const recordToUrl = (record: Record<string, boolean>) => {
+	return Object.entries(record)
+		.filter(([, value]) => value)
+		.map(([key]) => key)
+		.join(",");
+};
+
+function setUrlFromState(state: IdolState) {
+	const params = new URLSearchParams();
+	if (state.searchQuery) {
+		params.set("q", state.searchQuery);
+	}
+
+	const selectedMechanics = recordToUrl(state.activeMechanics);
+	if (selectedMechanics) {
+		params.set("m", selectedMechanics);
+	}
+
+	const selectedIdolTypes = recordToUrl(state.activeIdolTypes);
+	if (selectedIdolTypes) {
+		params.set("t", selectedIdolTypes);
+	}
+
+	const selectedIdolAffixes = recordToUrl(state.activeIdolAffixes);
+	if (selectedIdolAffixes) {
+		params.set("a", selectedIdolAffixes);
+	}
+
+	const newUrl = `${window.location.pathname}?${params.toString()}`;
+	window.history.replaceState({}, "", newUrl);
 }
 
 export default useIdolStore;

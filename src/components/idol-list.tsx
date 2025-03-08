@@ -5,6 +5,7 @@ import IdolListItem from "@/components/idol-list-item.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import useIdolStore from "@/store/idolStore";
+import { useEffect } from "react";
 
 function IdolList() {
 	const {
@@ -19,7 +20,13 @@ function IdolList() {
 		toggleIdolType,
 		activeIdolAffixes,
 		toggleIdolAffix,
+		refresh,
 	} = useIdolStore();
+
+	useEffect(() => {
+		// Update the list of idols when the component is mounted and the URL loaded list can be generated
+		refresh();
+	}, [refresh]);
 
 	return (
 		<div className="container mx-auto h-full overflow-visible overflow-x-clip bg-background p-4 text-foreground">
