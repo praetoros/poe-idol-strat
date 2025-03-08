@@ -1,53 +1,28 @@
-import { idol0 } from "@/data/idol0.ts";
-import { idol1 } from "@/data/idol1.ts";
-import { idol2 } from "@/data/idol2.ts";
-import { idol3 } from "@/data/idol3.ts";
-import { idol4 } from "@/data/idol4.ts";
-
 export type BaseIdolData = {
 	Name: string;
 	Code: string;
 	Level: string;
 	ModGenerationTypeID: string;
 	ModFamilyList: string[];
-	DropChance: number; //Weighting
-	str: string; //Description
+	DropChance: number;
+	str: string;
+};
+
+export type IdolAffix = keyof typeof IdolTypes;
+
+export const IdolAffixes: Record<string, string> = {
+	Prefix: "Prefix",
+	Suffix: "Suffix",
 };
 
 export type IdolType = keyof typeof IdolTypes;
 
-export const IdolTypes: Record<string, number> = {
-	Idol0: 0,
-	Idol1: 1,
-	Idol2: 2,
-	Idol3: 3,
-	Idol4: 4,
-	Unique: 0,
-	Minor: 1,
-	Kamasan: 2,
-	Noble: 2,
-	Totemic: 3,
-	Burial: 3,
-	Conqueror: 4,
-};
-
-export const idolTypeToSize = (
-	type: (typeof IdolTypes)[keyof typeof IdolTypes],
-): string => {
-	switch (type) {
-		case 0:
-			return "1x1 (Unique)";
-		case 1:
-			return "1x1";
-		case 2:
-			return "1x2,2x1";
-		case 3:
-			return "1x3,3x1";
-		case 4:
-			return "2x2";
-		default:
-			return "Unknown";
-	}
+export const IdolTypes: Record<string, string> = {
+	Idol0: "1x1 (Unique)",
+	Idol1: "1x1",
+	Idol2: "1x2,2x1",
+	Idol3: "1x3,3x1",
+	Idol4: "2x2",
 };
 
 export type IdolMechanic = keyof typeof IdolMechanics;
@@ -89,13 +64,15 @@ export const IdolMechanics: Record<string, string> = {
 	Ascendancy: "Ascendancy",
 	Maven: "Maven",
 	Unknown: "Unknown",
-	Unique: "Unique",
 };
 
 export type EnrichedIdolData = BaseIdolData & {
 	Mechanic: IdolMechanic;
-	Type: number;
-	Affix: "Suffix" | "Prefix";
+	Type: IdolType;
+	Affix: "Suffix" | "Prefix" | "Unique";
+	IsUnique: boolean;
+	Size: string;
+	DisplayCode: string;
 };
 
 export const idolNameToMechanic = (name: string): IdolMechanic => {
@@ -204,26 +181,42 @@ export const idolNameToMechanic = (name: string): IdolMechanic => {
 	}
 };
 
-function idolNameToAffix(Name: string): "Suffix" | "Prefix" {
-	return Name.startsWith("of ") ? "Suffix" : "Prefix";
-}
-
 export const idolDataWithTypeAndMechanic = (
 	idol: BaseIdolData,
-	type: number,
+	type: IdolType,
 ): EnrichedIdolData => {
+	if (type === IdolTypes.Idol0) {
+		return {
+			...idol,
+			Mechanic: idol.Name,
+			Type: type,
+			Affix: "Unique",
+			IsUnique: true,
+			Size: IdolTypes[type],
+			DisplayCode: idol.Code,
+		};
+	}
 	return {
 		...idol,
-		Mechanic: type === 0 ? IdolMechanics.Unique : idolNameToMechanic(idol.Name),
+		Mechanic: idolNameToMechanic(idol.Name),
 		Type: type,
-		Affix: idolNameToAffix(idol.Name),
+		Affix: idol.Name.startsWith("of ") ? "Suffix" : "Prefix",
+		IsUnique: false,
+		Size: IdolTypes[type],
+		DisplayCode: idol.Code.replace(
+			/(\w)([A-Z0-9])/g,
+			(_, ...args) => `${args[0]} ${args[1]}`,
+		),
 	};
 };
 
-export const allIdolData: EnrichedIdolData[] = [
-	...idol0.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol0)),
-	...idol1.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol1)),
-	...idol2.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol2)),
-	...idol3.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol3)),
-	...idol4.map((idol) => idolDataWithTypeAndMechanic(idol, IdolTypes.Idol4)),
-].filter((idol) => !idol.str.includes("144&ndash;180")); // Remove 144-180 affixes since they are only for ruthless
+export const idolColourClass = (idol: EnrichedIdolData) => {
+	switch (idol.Affix) {
+		case "Suffix":
+			return "text-red-600";
+		case "Prefix":
+			return "text-blue-600";
+		case "Unique":
+			return "text-orange-600";
+	}
+};

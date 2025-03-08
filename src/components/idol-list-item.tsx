@@ -1,26 +1,41 @@
-// components/idol-list-item.tsx (Modified)
-import { type EnrichedIdolData, idolTypeToSize } from "@/helpers/idol";
+import { Button } from "@/components/ui/button.tsx";
+import {
+	type EnrichedIdolData,
+	type IdolType,
+	IdolTypes,
+	idolColourClass,
+} from "@/models/idol.ts";
+import { Clipboard } from "lucide-react";
 import { toast } from "sonner";
 
 interface IdolListItemProps {
 	idol: EnrichedIdolData;
 }
 
-function copyTradeText(tradeStr: string, type: number) {
+function getText(str: string, type: IdolType, copyType: "Trade" | "Stash") {
 	const tempDiv = document.createElement("div");
-	tempDiv.innerHTML = tradeStr;
+	tempDiv.innerHTML = str;
 
 	const spans = tempDiv.querySelectorAll("span");
 	for (const span of spans) {
-		const spanReplacement = `${span.textContent?.startsWith("+") ? "+" : ""}#`;
-		span.parentNode?.insertBefore(
-			document.createTextNode(spanReplacement),
-			span,
-		);
+		if (copyType === "Trade") {
+			const spanReplacement = `${span.textContent?.startsWith("+") ? "+" : ""}#`;
+			span.parentNode?.insertBefore(
+				document.createTextNode(spanReplacement),
+				span,
+			);
+		}
+		if (copyType === "Stash") {
+			const spanReplacement = `${span.textContent?.startsWith("+") ? `+""` : `""`}`;
+			span.parentNode?.insertBefore(
+				document.createTextNode(spanReplacement),
+				span,
+			);
+		}
 		span.parentNode?.removeChild(span);
 	}
 
-	if (type === 0) {
+	if (type === IdolTypes.Idol0) {
 		const firstLine = tempDiv.innerHTML?.split("<br>")[0];
 		if (firstLine) {
 			tempDiv.textContent = firstLine;
@@ -37,16 +52,25 @@ function copyTradeText(tradeStr: string, type: number) {
 	}
 
 	const textToCopy = tempDiv.textContent || tempDiv.innerText;
+	const trimmed =
+		copyType === "Stash" ? textToCopy.substring(0, 48) : textToCopy;
+	return copyType === "Stash" ? `"${trimmed}"` : trimmed;
+}
+
+function copyText(str: string, type: IdolType, copyType: "Trade" | "Stash") {
+	const textToCopy = getText(str, type, copyType);
 
 	if (textToCopy) {
 		if (navigator.clipboard) {
 			navigator.clipboard
 				.writeText(textToCopy)
 				.then(() => {
-					if (type === 0) {
-						toast("Trade search text copied to clipboard. (First line only)");
+					if (type === IdolTypes.Idol0) {
+						toast(
+							`${copyType} search text copied to clipboard. (First line only)`,
+						);
 					} else {
-						toast("Trade search text copied to clipboard.");
+						toast(`${copyType} search text copied to clipboard.`);
 					}
 				})
 				.catch((err) => {
@@ -63,39 +87,37 @@ function copyTradeText(tradeStr: string, type: number) {
 
 function IdolListItem({ idol }: IdolListItemProps) {
 	return (
-		// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-		<li
-			key={idol.Code}
-			className="flex flex-col rounded border p-2 shadow"
-			onClick={() => copyTradeText(idol.str, idol.Type)}
-		>
-			<h2 className="font-semibold text-md">
-				{idol.Code.replace(/_/g, " ").replace(/\b\w/g, (char) =>
-					char.toUpperCase(),
-				)}
-			</h2>
+		<li key={idol.Code} className="flex flex-col rounded border p-2 shadow">
+			<h2 className="font-semibold text-md">{idol.DisplayCode}</h2>
 			<p
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
 				dangerouslySetInnerHTML={{ __html: idol.str }}
 				className="[&>span]:font-bold [&>span]:text-green-600"
 			/>
-			<p className="mt-auto text-sm">
-				Mechanic: {idol.Mechanic} | Min Level: {idol.Level} | Size:{" "}
-				{idolTypeToSize(idol.Type)}
-				{idol.Type !== 0 && (
-					<>
-						{" "}
-						|{" "}
-						<span
-							className={
-								idol.Affix === "Suffix" ? "text-red-600" : "text-blue-600"
-							}
-						>
-							{idol.Affix}
-						</span>
-					</>
-				)}
-			</p>
+			<div className="mt-auto text-sm">
+				<p>
+					Mechanic: {idol.Mechanic} |{" "}
+					{idol.Level !== "0" ? `Min Level: ${idol.Level} | ` : ""}Size:{" "}
+					{idol.Size} |{" "}
+					<span className={idolColourClass(idol)}>{idol.Affix}</span>
+				</p>
+				<div className="flex gap-2 p-0">
+					<Button
+						onClick={() => copyText(idol.str, idol.Type, "Trade")}
+						className="h-5 max-w-2/5 p-1"
+					>
+						<Clipboard className="hidden h-4 w-4 md:block" />
+						Trade
+					</Button>
+					<Button
+						onClick={() => copyText(idol.str, idol.Type, "Stash")}
+						className="h-5 max-w-2/5 p-1"
+					>
+						<Clipboard className="hidden h-4 w-4 md:block" />
+						Stash
+					</Button>
+				</div>
+			</div>
 		</li>
 	);
 }
