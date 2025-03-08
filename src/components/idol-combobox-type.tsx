@@ -13,7 +13,7 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import type { IdolType } from "@/models/idol.ts";
+import { type IdolType, IdolTypes } from "@/models/idol.ts";
 import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
@@ -56,13 +56,13 @@ export function IdolComboboxType({
 							{Object.entries(activeIdolTypes).map(([type, active]) => (
 								<CommandItem
 									key={type}
-									value={type}
+									value={IdolTypes[type]}
 									onSelect={() => {
 										toggleIdolType(type);
 									}}
 									className="flex"
 								>
-									{type}
+									{IdolTypes[type]}
 									<Check
 										className={cn(
 											"ml-auto h-4 w-4",
