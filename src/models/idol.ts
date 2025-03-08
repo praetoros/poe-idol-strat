@@ -185,7 +185,7 @@ export const idolDataWithTypeAndMechanic = (
 	idol: BaseIdolData,
 	type: IdolType,
 ): EnrichedIdolData => {
-	if (type === IdolTypes.Idol0) {
+	if (type === "Idol0") {
 		return {
 			...idol,
 			Mechanic: idol.Name,
